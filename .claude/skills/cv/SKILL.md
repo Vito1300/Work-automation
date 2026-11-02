@@ -9,7 +9,7 @@ Reply in the user's language. Never invent facts: every line of the CV comes fro
 
 ## 1. Get the facts into `cv.md`
 
-`node doctor.mjs --json --init-templates`. Then:
+First run: if `node_modules/` is missing, run `npm install` and `npx playwright install chromium` yourself (one status line, no questions). Then `node doctor.mjs --json --init-templates`, and:
 
 - **`cv.md` missing** → ask ONE question: «Як тобі зручніше: (1) встав текст резюме сюди, (2) поклади PDF/DOCX у папку `documents/`, (3) дай посилання на LinkedIn, або (4) просто розкажи про досвід — я поставлю питання.»
   - Pasted text → convert it.

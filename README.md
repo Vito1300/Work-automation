@@ -1,124 +1,99 @@
-# Пошук роботи з Claude — простий fork career-ops
+# Job search with Claude — a simple career-ops fork
 
-Особистий помічник для пошуку роботи, який працює у **Claude Code** і твоєму **Chrome**.
-Ти даєш йому резюме — він:
+A personal job-search assistant that runs in **Claude Code** and your own **Chrome**.
+Give it your CV and it will:
 
-1. **оформлює CV** у чистий PDF (англійською та/або українською);
-2. **заповнює твої профілі** на LinkedIn, Djinni, Work.ua, Robota.ua, DOU, Upwork;
-3. **шукає вакансії** на всіх цих сайтах, оцінює кожну за шкалою 1–5 і **показує все в дашборді**.
+1. **Format your CV** into a clean PDF (English and/or Ukrainian).
+2. **Fill in your profiles** on LinkedIn, Djinni, Work.ua, Robota.ua, DOU and Upwork.
+3. **Find jobs** on all those sites, score each one 1–5 against your CV, and **show everything in a dashboard**.
 
-Нічого не надсилається без тебе: кнопку «Відгукнутись» / «Зберегти» завжди натискаєш ти (або підтверджуєш словом «так»).
+Nothing is sent without you: you press "Apply" / "Save" yourself, or say "yes" first.
 
-> Це спрощений fork проєкту [career-ops](https://github.com/santifer/career-ops) від santifer (MIT). Повна документація оригіналу — у [docs/README.career-ops.md](docs/README.career-ops.md).
-
----
-
-## Що потрібно
-
-| Що | Навіщо | Де взяти |
-|----|--------|----------|
-| **Claude Code** (додаток Claude для комп'ютера або CLI) | сам помічник | [claude.com/claude-code](https://claude.com/claude-code) |
-| **Node.js 22+** | запуск скриптів | [nodejs.org](https://nodejs.org) |
-| **Google Chrome + розширення Claude** | пошук вакансій і заповнення профілів у твоєму браузері | розширення **Claude** у Chrome Web Store, увійди тим самим акаунтом |
-| Акаунти на Djinni / Work.ua / LinkedIn тощо | помічник працює від твого імені, у твоїх сесіях | увійди в них у Chrome заздалегідь |
-
-## Встановлення (один раз, ~5 хв)
-
-```bash
-git clone https://github.com/<твій-github>/<назва-fork>.git
-```
-
-```bash
-cd <назва-fork>
-```
-
-```bash
-npm install
-```
-
-```bash
-npx playwright install chromium
-```
-
-Потім відкрий цю папку в Claude Code (у додатку: **Code → Open folder**, або в терміналі команда `claude`).
+> A simplified fork of [career-ops](https://github.com/santifer/career-ops) by santifer (MIT). The full original docs are in [docs/README.career-ops.md](docs/README.career-ops.md).
 
 ---
 
-## Як користуватись — 3 команди
+## Setup (once)
 
-Пиши в чат Claude Code.
+You need three things:
 
-### 1. `/cv` — резюме
+- [**Claude Code**](https://claude.com/claude-code) — the Claude desktop app (Code tab) or the CLI.
+- [**Node.js**](https://nodejs.org) — the LTS version, default install.
+- **Google Chrome** with the **Claude** extension (Chrome Web Store), signed in to the same account. Log in to Djinni, LinkedIn, etc. in that Chrome.
 
-```
-/cv
-```
+Then:
 
-Помічник спитає, як тобі зручніше: вставити текст резюме, покласти старий PDF у папку `documents/`, дати посилання на LinkedIn або просто розповісти про досвід. Потім кілька питань (ім'я, контакти, бажана посада, зарплата) — і готово:
+1. Get the project: click **Code → Download ZIP** on this page and unzip it (or `git clone` it).
+2. Open the folder in Claude Code.
+3. Type `/cv`.
 
-- `output/General/CV.pdf` — англійське резюме
-- `output/General/CV-UA.pdf` — українське
+That's it. On the first run Claude installs everything else it needs by itself.
 
-Хочеш інший вигляд — скажи «покажи інші шаблони» або «зроби без кольорів, на одну сторінку».
+---
 
-### 2. `/fill-profile` — профілі на сайтах
+## How to use it — 3 commands
+
+Type these in the Claude Code chat.
+
+### 1. `/cv` — your CV
+
+Claude asks how you'd like to start: paste your CV, drop an old PDF into `documents/`, share your LinkedIn, or just tell it about your experience. After a few questions (name, contacts, target role, salary) you get:
+
+- `output/General/CV.pdf` — English CV
+- `output/General/CV-UA.pdf` — Ukrainian CV
+
+Want a different look? Say "show me other templates" or "make it one page, no colors".
+
+### 2. `/fill-profile` — your job-site profiles
 
 ```
 /fill-profile djinni
 ```
 
-Також: `linkedin`, `workua`, `robotaua`, `dou`, `upwork`.
-Помічник спочатку пише чернетку всіх полів у чат → ти правиш → він заповнює форму в твоєму Chrome → перед кожним «Зберегти» питає дозволу.
+Also: `linkedin`, `workua`, `robotaua`, `dou`, `upwork`.
+Claude drafts every field in the chat first, you edit it, then it fills the form in your Chrome and asks before each "Save".
 
-### 3. `/scan-all` — пошук вакансій + дашборд
+### 3. `/scan-all` — find jobs + dashboard
 
-```
-/scan-all
-```
+The first run asks what to look for (keywords, experience, minimum salary, remote/office, which sites). Then Claude:
 
-Перший запуск спитає, що шукати (ключові слова, досвід, мінімальна зарплата, віддалено/офіс, які сайти). Далі помічник:
+1. reads job-alert emails in Gmail (if connected, read-only);
+2. goes through Djinni, DOU, Work.ua, Robota.ua, Jooble, LinkedIn and Upwork in your Chrome;
+3. skips what doesn't fit (and tells you why);
+4. scores the rest, writes a report and a tailored CV for every job scoring 4.0+;
+5. **opens the dashboard** (`output/dashboard.html`) — a table with scores, statuses, filters and search.
 
-1. читає листи з вакансіями в Gmail (якщо підключено, лише читання);
-2. проходить Djinni, DOU, Work.ua, Robota.ua, Jooble, LinkedIn, Upwork у твоєму Chrome;
-3. відсіює те, що не підходить (з поясненням чому);
-4. оцінює решту, пише звіт і готує резюме під кожну вакансію з балом ≥ 4.0;
-5. **відкриває дашборд** `output/dashboard.html` — таблиця з балами, статусами, фільтрами й пошуком.
+Like a job? Say "**apply to #3**". Claude fills in the application and stops right before the send button. You press it.
 
-Сподобалась вакансія? Напиши «**подавай #3**» — помічник заповнить форму відгуку й зупиниться перед кнопкою надсилання. Натискаєш ти.
-
-Дашборд можна відкрити будь-коли:
-
-```bash
-npm run dashboard
-```
+Open the dashboard any time by asking Claude "open the dashboard".
 
 ---
 
-## Де що лежить
+## Where things live
 
-| Файл / папка | Що там |
-|--------------|--------|
-| `cv.md` | твоє резюме (головне джерело правди — помічник нічого не вигадує поза ним) |
-| `config/profile.yml` | контакти, бажана посада, зарплата, мова |
-| `config/scan-all.yml` | що і де шукати (створюється при першому `/scan-all`) |
-| `output/` | PDF-резюме і `dashboard.html` |
-| `reports/` | розбір кожної вакансії |
-| `data/applications.md` | трекер усіх вакансій |
+| File / folder | What's in it |
+|---------------|--------------|
+| `cv.md` | your CV — the single source of truth; Claude never invents anything beyond it |
+| `config/profile.yml` | contacts, target role, salary, language |
+| `config/scan-all.yml` | what and where to search (created on the first `/scan-all`) |
+| `output/` | CV PDFs and `dashboard.html` |
+| `reports/` | a breakdown of every job |
+| `data/applications.md` | the tracker of all jobs |
 
-Усі ці файли **не потрапляють у git** — твої дані залишаються лише на твоєму комп'ютері.
+None of these files go to git — your data stays on your computer.
 
-## Часті питання
+## FAQ
 
-**Chrome «не підключений».** Відкрий Chrome, увімкни розширення Claude і відкрий його бічну панель, потім повтори команду.
+**"Chrome is not connected."** Open Chrome, turn on the Claude extension, open its side panel, then run the command again.
 
-**Сайт просить увійти / капча.** Помічник ніколи не вводить паролі й не проходить капчі — увійди сам, потім скажи «продовжуй».
+**A site asks me to log in / shows a captcha.** Claude never types passwords or solves captchas. Log in yourself, then say "continue".
 
-**Хочу змінити, що шукати.** Скажи «додай у пошук Vue» або відредагуй `config/scan-all.yml`.
+**I want to change what it searches for.** Say "also search for Vue", or edit `config/scan-all.yml`.
 
-**Хочу, щоб він завжди робив щось по-своєму** (наприклад, «листи не довші за 60 слів»). Просто скажи — правило запишеться в `modes/_custom.md` і діятиме завжди.
+**I want it to always do something my way** (e.g. "cover letters under 60 words"). Just say so — the rule is saved to `modes/_custom.md` and applies from then on.
 
-**Повний набір можливостей** (співбесіди, супровідні листи, аналіз відмов тощо) — команда `/career-ops`.
+**Everything else** (interview prep, cover letters, rejection analysis and more): `/career-ops`.
 
-## Ліцензія
+## License
 
-MIT — див. [LICENSE](LICENSE). Оригінальний проєкт: [santifer/career-ops](https://github.com/santifer/career-ops).
+MIT — see [LICENSE](LICENSE). Original project: [santifer/career-ops](https://github.com/santifer/career-ops).

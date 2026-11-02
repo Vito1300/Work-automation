@@ -14,7 +14,7 @@ Runs the career-ops `scan` → `pipeline` → tracker loop through **Claude in C
 
 ## 0. Before anything
 
-1. `node doctor.mjs --json`. If `onboardingNeeded` is true (no `cv.md` / `config/profile.yml`): tell the user to run `/cv` first (it builds the CV and the profile) and stop.
+1. If `node_modules/` is missing, run `npm install` first. Then `node doctor.mjs --json`. If `onboardingNeeded` is true (no `cv.md` / `config/profile.yml`): tell the user to run `/cv` first (it builds the CV and the profile) and stop.
 2. Read `config/profile.yml`, `modes/_profile.md`, `modes/_custom.md` (if present) and `config/scan-all.yml`.
    **No `config/scan-all.yml`?** Build one from `config/scan-all.example.yml`: propose `keywords` from `target_roles` in `config/profile.yml` and the CV's main skills, then ask the user ONE message with the few things you can't infer (keywords OK?, years of experience, minimum pay, remote/office + city, which sites). Write their answers to `config/scan-all.yml` and continue.
 3. Load the Chrome tools in ONE ToolSearch call: `select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__get_page_text,mcp__claude-in-chrome__find,mcp__claude-in-chrome__javascript_tool,mcp__claude-in-chrome__browser_batch,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__tabs_close_mcp`.
